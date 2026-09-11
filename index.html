@@ -1,0 +1,520 @@
+<title>배재대 저경쟁 모집단위</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F2F4F8;
+    --surface: #FFFFFF;
+    --surface-sunken: #E9ECF3;
+    --border: #D8DDE8;
+    --ink: #1C2130;
+    --ink-soft: #565F76;
+    --ink-faint: #8891A4;
+    --accent: #2C3A66;
+    --accent-soft: #E7EAF4;
+    --accent-strong: #1B2547;
+    --critical: #AE2C22;
+    --critical-soft: #FBE7E4;
+    --critical-bar: #C23B2F;
+    --warn: #A4690A;
+    --warn-soft: #FBF0DC;
+    --warn-bar: #D99A2B;
+    --good: #2E7D4F;
+    --good-soft: #E5F3EB;
+    --track-bg: #E4E8F0;
+    --shadow: 0 1px 2px rgba(28,33,48,0.04), 0 8px 24px -12px rgba(28,33,48,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #12151E;
+      --surface: #191D29;
+      --surface-sunken: #10131B;
+      --border: #2B3143;
+      --ink: #E7E9F1;
+      --ink-soft: #A8AFC2;
+      --ink-faint: #767E93;
+      --accent: #8FA0DE;
+      --accent-soft: #232C48;
+      --accent-strong: #C2CDF2;
+      --critical: #FF8A7A;
+      --critical-soft: #3A2220;
+      --critical-bar: #E5695A;
+      --warn: #F0BB63;
+      --warn-soft: #3A2F17;
+      --warn-bar: #D9A23C;
+      --good: #5FBB89;
+      --good-soft: #1E3327;
+      --track-bg: #262C3E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #12151E;
+    --surface: #191D29;
+    --surface-sunken: #10131B;
+    --border: #2B3143;
+    --ink: #E7E9F1;
+    --ink-soft: #A8AFC2;
+    --ink-faint: #767E93;
+    --accent: #8FA0DE;
+    --accent-soft: #232C48;
+    --accent-strong: #C2CDF2;
+    --critical: #FF8A7A;
+    --critical-soft: #3A2220;
+    --critical-bar: #E5695A;
+    --warn: #F0BB63;
+    --warn-soft: #3A2F17;
+    --warn-bar: #D9A23C;
+    --good: #5FBB89;
+    --good-soft: #1E3327;
+    --track-bg: #262C3E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{ box-sizing: border-box; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+    padding: 32px 20px 64px;
+    display: flex;
+    justify-content: center;
+  }
+  .page{ width: 100%; max-width: 1080px; display: flex; flex-direction: column; gap: 22px; }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--accent-strong);
+  }
+  .masthead-text{ display:flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .eyebrow{
+    font-size: 15px; font-weight: 600; color: var(--ink-soft);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  h1{
+    font-family: "Noto Serif KR", serif;
+    font-weight: 700;
+    font-size: clamp(26px, 4.4vw, 38px);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .masthead-meta{
+    margin-left: auto;
+    text-align: right;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    line-height: 1.6;
+    flex: none;
+  }
+  .masthead-meta b{ color: var(--ink-soft); font-weight: 600; }
+
+  /* ---------- Stat tiles ---------- */
+  .tiles{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .tile{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .tile .num{
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    font-size: 26px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tile.critical .num{ color: var(--critical); }
+  .tile.warn .num{ color: var(--warn); }
+  .tile .label{ font-size: 12.5px; color: var(--ink-soft); }
+  .tile .sub{ font-size: 11.5px; color: var(--ink-faint); }
+
+  /* ---------- Insight callout ---------- */
+  .callout{
+    background: var(--critical-soft);
+    border: 1px solid color-mix(in srgb, var(--critical) 35%, transparent);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-size: 13.5px;
+    color: var(--ink);
+    line-height: 1.6;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .callout .dot{
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--critical); margin-top: 6px; flex: none;
+  }
+  .callout b{ color: var(--critical); }
+  .callout.warn{ background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+  .callout.warn .dot{ background: var(--warn); }
+  .callout.warn b{ color: var(--warn); }
+  .callout.good{ background: var(--good-soft); border-color: color-mix(in srgb, var(--good) 35%, transparent); }
+  .callout.good .dot{ background: var(--good); }
+  .callout.good b{ color: var(--good); }
+
+  /* ---------- Controls ---------- */
+  .controls{
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .chips{ display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip{
+    font-family: inherit;
+    font-size: 12.5px; font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 13px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .chip:hover{ border-color: var(--accent); }
+  .chip.active{
+    background: var(--accent); color: #fff; border-color: var(--accent);
+  }
+  .search{
+    margin-left: auto;
+    position: relative;
+    min-width: 200px;
+  }
+  .search input{
+    width: 100%;
+    font-family: inherit;
+    font-size: 13px;
+    padding: 8px 12px 8px 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .search input:focus{ outline: 2px solid var(--accent); outline-offset: 1px; }
+  .search svg{ position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--ink-faint); }
+  .count-note{ font-size: 12px; color: var(--ink-faint); white-space: nowrap; }
+
+  /* ---------- Table ---------- */
+  .table-wrap{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  table{ width: 100%; border-collapse: collapse; min-width: 720px; }
+  thead th{
+    position: sticky; top: 0;
+    background: var(--surface-sunken);
+    text-align: left;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+  }
+  thead th:hover{ color: var(--accent); }
+  thead th .arrow{ font-size: 10px; margin-left: 3px; color: var(--ink-faint); }
+  tbody td{
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    vertical-align: middle;
+  }
+  tbody tr:last-child td{ border-bottom: none; }
+  tbody tr:hover{ background: var(--surface-sunken); }
+  tbody tr.group-start td{ border-top: 2px solid var(--border); }
+
+  .track{ display: flex; flex-direction: column; gap: 2px; }
+  .track .type{ font-size: 11.5px; color: var(--ink-faint); }
+  .unit{ font-weight: 500; color: var(--ink); }
+  .unit .new{
+    display:inline-block; margin-left: 6px;
+    font-size: 10.5px; font-weight: 700; color: var(--warn);
+    background: var(--warn-soft); border-radius: 5px; padding: 1px 5px;
+  }
+  .prev-cell{ display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+  .prev-val{
+    font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+  }
+  .prev-trend{ font-size: 11px; }
+  .prev-trend.down{ color: var(--critical); }
+  .prev-trend.up{ color: var(--good); }
+  .prev-new{
+    font-size: 10.5px; font-weight: 700; color: var(--warn);
+    background: var(--warn-soft); border-radius: 5px; padding: 2px 6px;
+  }
+  .prev-na{ color: var(--ink-faint); }
+  td.num{
+    font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    color: var(--ink-soft);
+  }
+  .ratio-cell{ display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
+  .ratio-val{
+    font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 58px;
+    text-align: right;
+  }
+  .ratio-val.critical{ color: var(--critical); }
+  .ratio-val.warn{ color: var(--warn); }
+  .bar-track{
+    width: 72px; height: 7px; border-radius: 4px;
+    background: var(--track-bg);
+    overflow: hidden;
+    flex: none;
+  }
+  .bar-fill{ height: 100%; border-radius: 4px; }
+  .bar-fill.critical{ background: var(--critical-bar); }
+  .bar-fill.warn{ background: var(--warn-bar); }
+
+  tbody tr.empty td{
+    text-align: center; color: var(--ink-faint); padding: 32px 14px; font-size: 13px;
+  }
+
+  footer{
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    font-size: 12px; color: var(--ink-faint); line-height: 1.7;
+    border-top: 1px solid var(--border); padding-top: 14px;
+  }
+  footer b{ color: var(--ink-soft); }
+
+  @media (max-width: 720px){
+    .tiles{ grid-template-columns: repeat(2, 1fr); }
+    .masthead{ flex-wrap: wrap; }
+    .masthead-meta{ margin-left: 0; text-align: left; }
+    .search{ width: 100%; margin-left: 0; }
+  }
+</style>
+
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-text">
+      <h1>배재대학교 2027학년도 수시모집</h1>
+      <span class="eyebrow">경쟁률 3:1 미만 모집단위 현황 · 정원내</span>
+    </div>
+    <div class="masthead-meta">
+      데이터 기준 <b>2026.09.11 09:11</b> · 5분마다 자동 갱신<br>
+      정원내 전체 경쟁률 <b>4.77 : 1</b>
+    </div>
+  </div>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="num" id="tileTotal">–</div>
+      <div class="label">3:1 미만 모집단위</div>
+      <div class="sub">전형·학과 조합 기준</div>
+    </div>
+    <div class="tile critical">
+      <div class="num" id="tileCritical">–</div>
+      <div class="label">정원 미달 (1:1 미만)</div>
+      <div class="sub">지원인원 &lt; 모집인원</div>
+    </div>
+    <div class="tile warn">
+      <div class="num" id="tileWarn">–</div>
+      <div class="label">저경쟁 (1~3:1)</div>
+      <div class="sub">경쟁은 있으나 낮음</div>
+    </div>
+    <div class="tile">
+      <div class="num" id="tileMin">–</div>
+      <div class="label">최저 경쟁률</div>
+      <div class="sub" id="tileMinUnit">–</div>
+    </div>
+  </div>
+
+  <div class="callout good">
+    <span class="dot"></span>
+    <span><b>정원 미달(1:1 미만) 학과가 사라졌습니다</b> — 밤사이 지원이 몰리며 신설학과 4개 조합 모두 1.00~1.33:1로 올라섰습니다. 여전히 AI소프트웨어공학부(인공지능)·교과가 정확히 1.00:1로 가장 아슬아슬합니다.</span>
+  </div>
+  <div class="callout warn">
+    <span class="dot"></span>
+    <span>전년도(2026학년도) 대비 비교 가능한 16개 조합 중 여전히 <b>15곳(94%)의 경쟁률이 하락</b> 중입니다. 항공서비스학과(교과)는 6.50:1 → 2.85:1로 낙폭이 가장 큽니다.</span>
+  </div>
+
+  <div class="controls">
+    <div class="chips" id="chips">
+      <button class="chip active" data-filter="all">전체 23</button>
+      <button class="chip" data-filter="critical">미달만</button>
+    </div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="searchInput" type="text" placeholder="모집단위 검색">
+    </div>
+    <span class="count-note" id="countNote"></span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th data-key="unit">전형 / 모집단위</th>
+          <th data-key="inwon" style="text-align:right">모집인원</th>
+          <th data-key="apply" style="text-align:right">지원인원</th>
+          <th data-key="ratio" style="text-align:right">경쟁률 <span class="arrow" id="sortArrow">▲</span></th>
+          <th data-key="prev" style="text-align:right">전년도(2026) 경쟁률</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    <span>출처: 유웨이어플라이 원서접수 관리자 &gt; 경쟁률 바로가기 (배재대학교 관리자 화면 실시간 조회, 파일 다운로드 없이 페이지 데이터를 직접 읽어옴). 전년도(2026학년도) 경쟁률은 "2026학년도 경쟁률.xlsx" 최종 현황 기준이며, 학부·학과 개편으로 전형이 개설되지 않았던 조합은 "–"로 표시했습니다. 정원외 전형과 실기/실적 체육특기자 전형은 범위에서 제외했습니다.</span>
+    <span><b>23</b>건 · 정원내만 · 5분 주기 자동 갱신 · 접수 마감(2026.09.11 21:00) 이후 갱신이 중단됩니다.</span>
+  </footer>
+
+</div>
+
+<script>
+  const RAW = [
+    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(인공지능)", tag:"신설", inwon:25, apply:25, ratio:1, prev:null},
+    {type:"학생부교과 · 교과", unit:"피지컬AI공학부(AI융합전자)", tag:"신설", inwon:20, apply:22, ratio:1.1, prev:null},
+    {type:"학생부교과 · 일반고교과", unit:"피지컬AI공학부(AI융합전자)", tag:"신설", inwon:10, apply:12, ratio:1.2, prev:null},
+    {type:"학생부교과 · 일반고교과", unit:"AI소프트웨어공학부(인공지능)", tag:"신설", inwon:15, apply:21, ratio:1.4, prev:null},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"AI소프트웨어공학부(컴퓨터공학)", inwon:5, apply:8, ratio:1.6, prev:3.6},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"자율전공학부", inwon:7, apply:13, ratio:1.86, prev:null},
+    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(소프트웨어학)", inwon:30, apply:57, ratio:1.9, prev:2.23},
+    {type:"학생부교과 · 일반고교과", unit:"AI소프트웨어공학부(컴퓨터공학)", inwon:32, apply:65, ratio:2.03, prev:2.51},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"AI소프트웨어공학부(게임공학)", inwon:4, apply:9, ratio:2.25, prev:3.4},
+    {type:"학생부교과 · 일반고교과", unit:"AI소프트웨어공학부(소프트웨어학)", inwon:15, apply:34, ratio:2.27, prev:2.65},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"의류패션학과", inwon:5, apply:12, ratio:2.4, prev:6},
+    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(컴퓨터공학)", inwon:35, apply:86, ratio:2.46, prev:3.28},
+    {type:"학생부교과 · 교과", unit:"생명공학과", inwon:35, apply:91, ratio:2.6, prev:3.15},
+    {type:"학생부교과 · 교과", unit:"건축학과 [5년제]", inwon:33, apply:86, ratio:2.61, prev:5.64},
+    {type:"학생부교과 · 교과", unit:"피지컬AI공학부(드론로봇공학)", inwon:25, apply:66, ratio:2.64, prev:3.59},
+    {type:"학생부교과 · 교과", unit:"스마트배터리학과", inwon:32, apply:89, ratio:2.78, prev:2.24},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"실내건축학과", inwon:5, apply:14, ratio:2.8, prev:6.2},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"운동재활복지학과", inwon:5, apply:14, ratio:2.8, prev:null},
+    {type:"실기/실적 · 예술인재", unit:"디자인학부(커뮤니케이션디자인)", inwon:25, apply:70, ratio:2.8, prev:5.4},
+    {type:"학생부교과 · 일반고교과", unit:"자율전공학부", inwon:15, apply:43, ratio:2.87, prev:null},
+    {type:"학생부교과 · 교과", unit:"항공서비스학과", inwon:20, apply:57, ratio:2.85, prev:6.5},
+    {type:"학생부교과 · 일반고교과", unit:"스마트배터리학과", inwon:10, apply:29, ratio:2.9, prev:null},
+    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(게임공학)", inwon:30, apply:88, ratio:2.93, prev:4},
+  ];
+
+  let sortKey = "ratio", sortDir = 1, activeFilter = "all", searchTerm = "";
+
+  function tierOf(r){ return r < 1 ? "critical" : "warn"; }
+
+  function prevCell(r){
+    if(r.tag === "신설") return '<div class="prev-cell"><span class="prev-new">신설</span></div>';
+    if(r.prev == null) return '<div class="prev-cell"><span class="prev-na">–</span></div>';
+    const dir = r.ratio < r.prev ? "▼" : (r.ratio > r.prev ? "▲" : "");
+    const trendClass = r.ratio < r.prev ? "down" : "up";
+    return `<div class="prev-cell"><span class="prev-val">${r.prev.toFixed(2)}:1</span><span class="prev-trend ${trendClass}">${dir}</span></div>`;
+  }
+
+  function render(){
+    let rows = RAW.filter(r => {
+      if(activeFilter === "critical" && r.ratio >= 1) return false;
+      if(searchTerm && !(r.unit + r.type).toLowerCase().includes(searchTerm)) return false;
+      return true;
+    });
+    if(sortKey === "ratio"){
+      // group same department together, groups ordered by their lowest ratio, then by ratio within the group
+      const minByUnit = {};
+      for(const r of rows){ minByUnit[r.unit] = Math.min(minByUnit[r.unit] ?? Infinity, r.ratio); }
+      rows.sort((a,b) => {
+        if(minByUnit[a.unit] !== minByUnit[b.unit]) return (minByUnit[a.unit] - minByUnit[b.unit]) * sortDir;
+        if(a.unit !== b.unit) return a.unit.localeCompare(b.unit) * sortDir;
+        return (a.ratio - b.ratio) * sortDir;
+      });
+    } else {
+      rows.sort((a,b) => {
+        let av = a[sortKey], bv = b[sortKey];
+        if(typeof av === "string") return av.localeCompare(bv) * sortDir;
+        return (av - bv) * sortDir;
+      });
+    }
+
+    const tbody = document.getElementById("tbody");
+    tbody.innerHTML = "";
+    if(rows.length === 0){
+      tbody.innerHTML = '<tr class="empty"><td colspan="5">조건에 맞는 모집단위가 없습니다.</td></tr>';
+    }
+    let prevUnit = null;
+    for(const r of rows){
+      const tier = tierOf(r.ratio);
+      const barPct = Math.max(4, Math.min(100, (r.ratio / 3) * 100));
+      const tr = document.createElement("tr");
+      if(sortKey === "ratio" && prevUnit !== null && prevUnit !== r.unit) tr.classList.add("group-start");
+      prevUnit = r.unit;
+      tr.innerHTML = `
+        <td>
+          <div class="track"><span class="type">${r.type}</span>
+          <span class="unit">${r.unit}${r.tag ? `<span class="new">${r.tag}</span>` : ""}</span></div>
+        </td>
+        <td class="num">${r.inwon}</td>
+        <td class="num">${r.apply}</td>
+        <td>
+          <div class="ratio-cell">
+            <div class="bar-track"><div class="bar-fill ${tier}" style="width:${barPct}%"></div></div>
+            <span class="ratio-val ${tier}">${r.ratio.toFixed(2)}:1</span>
+          </div>
+        </td>
+        <td>${prevCell(r)}</td>`;
+      tbody.appendChild(tr);
+    }
+
+    document.getElementById("countNote").textContent = `${rows.length}건 표시 중`;
+  }
+
+  function renderStats(){
+    const critical = RAW.filter(r => r.ratio < 1);
+    const warn = RAW.filter(r => r.ratio >= 1);
+    const min = RAW.reduce((a,b) => a.ratio < b.ratio ? a : b);
+    document.getElementById("tileTotal").textContent = RAW.length;
+    document.getElementById("tileCritical").textContent = critical.length;
+    document.getElementById("tileWarn").textContent = warn.length;
+    document.getElementById("tileMin").textContent = min.ratio.toFixed(2) + ":1";
+    document.getElementById("tileMinUnit").textContent = min.unit;
+  }
+
+  document.getElementById("chips").addEventListener("click", (e) => {
+    const btn = e.target.closest(".chip");
+    if(!btn) return;
+    document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+    btn.classList.add("active");
+    activeFilter = btn.dataset.filter;
+    render();
+  });
+
+  document.getElementById("searchInput").addEventListener("input", (e) => {
+    searchTerm = e.target.value.trim().toLowerCase();
+    render();
+  });
+
+  document.querySelectorAll("thead th[data-key]").forEach(th => {
+    th.addEventListener("click", () => {
+      const key = th.dataset.key;
+      if(sortKey === key){ sortDir *= -1; } else { sortKey = key; sortDir = 1; }
+      document.querySelectorAll(".arrow").forEach(a => a.remove());
+      const arrow = document.createElement("span");
+      arrow.className = "arrow";
+      arrow.textContent = sortDir === 1 ? "▲" : "▼";
+      th.appendChild(arrow);
+      render();
+    });
+  });
+
+  renderStats();
+  render();
+</script>
