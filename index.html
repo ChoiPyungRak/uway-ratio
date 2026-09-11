@@ -29,6 +29,8 @@
     --good-soft: #E5F3EB;
     --track-bg: #E4E8F0;
     --shadow: 0 1px 2px rgba(28,33,48,0.04), 0 8px 24px -12px rgba(28,33,48,0.18);
+    --type-sat: 60%;
+    --type-light: 38%;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -52,6 +54,8 @@
       --good-soft: #1E3327;
       --track-bg: #262C3E;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+      --type-sat: 65%;
+      --type-light: 72%;
     }
   }
   :root[data-theme="dark"]{
@@ -75,6 +79,8 @@
     --good-soft: #1E3327;
     --track-bg: #262C3E;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    --type-sat: 65%;
+    --type-light: 72%;
   }
 
   *{ box-sizing: border-box; }
@@ -243,7 +249,7 @@
   tbody tr.group-start td{ border-top: 2px solid var(--border); }
 
   .track{ display: flex; flex-direction: column; gap: 2px; }
-  .track .type{ font-size: 11.5px; font-weight: 700; color: var(--accent); letter-spacing: 0.01em; }
+  .track .type{ font-size: 11.5px; font-weight: 700; letter-spacing: 0.01em; }
   .unit{ font-weight: 500; color: var(--ink); }
   .unit .new{
     display:inline-block; margin-left: 6px;
@@ -470,7 +476,7 @@
       prevUnit = r.unit;
       tr.innerHTML = `
         <td>
-          <div class="track"><span class="type">${r.type}</span>
+          <div class="track"><span class="type" style="color:${typeColor(r.type)}">${r.type}</span>
           <span class="unit">${r.unit}${r.tag ? `<span class="new">${r.tag}</span>` : ""}</span></div>
         </td>
         <td class="num">${r.inwon}</td>
@@ -500,6 +506,28 @@
   }
 
   function shortType(t){ return t.split(" · ")[1] || t; }
+
+  const TYPE_HUES = {
+    "교과": 212,
+    "일반고교과": 265,
+    "지역인재Ⅰ": 152,
+    "지역인재Ⅱ": 172,
+    "항공인재": 28,
+    "서류100": 335,
+    "예술인재": 8,
+    "웹툰포트폴리오": 45,
+    "뷰티케어특기자": 300,
+  };
+  function typeHue(type){
+    const key = shortType(type);
+    if(TYPE_HUES[key] != null) return TYPE_HUES[key];
+    let h = 0;
+    for(let i = 0; i < key.length; i++){ h = (h * 31 + key.charCodeAt(i)) % 360; }
+    return h;
+  }
+  function typeColor(type){
+    return `hsl(${typeHue(type)}, var(--type-sat), var(--type-light))`;
+  }
 
   function renderCallouts(){
     const belowOne = RAW.filter(r => r.ratio < 1);
