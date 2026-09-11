@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>배재대 저경쟁 모집단위</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,6 +79,7 @@
 
   *{ box-sizing: border-box; }
   body{
+    margin: 0;
     background: var(--bg);
     color: var(--ink);
     font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
@@ -303,7 +309,8 @@
     .search{ width: 100%; margin-left: 0; }
   }
 </style>
-
+</head>
+<body>
 <div class="page">
 
   <div class="masthead">
@@ -312,8 +319,8 @@
       <span class="eyebrow">경쟁률 3:1 미만 모집단위 현황 · 정원내</span>
     </div>
     <div class="masthead-meta">
-      데이터 기준 <b>2026.09.11 09:11</b> · 5분마다 자동 갱신<br>
-      정원내 전체 경쟁률 <b>4.77 : 1</b>
+      데이터 기준 <b id="metaTimestamp">2026.09.11 11:48</b> · <span id="metaLiveNote">동기화 중...</span><br>
+      정원내 전체 경쟁률 <b id="metaRatio">5.02 : 1</b>
     </div>
   </div>
 
@@ -340,18 +347,18 @@
     </div>
   </div>
 
-  <div class="callout good">
+  <div class="callout good" id="calloutQuota">
     <span class="dot"></span>
-    <span><b>정원 미달(1:1 미만) 학과가 사라졌습니다</b> — 밤사이 지원이 몰리며 신설학과 4개 조합 모두 1.00~1.33:1로 올라섰습니다. 여전히 AI소프트웨어공학부(인공지능)·교과가 정확히 1.00:1로 가장 아슬아슬합니다.</span>
+    <span id="calloutQuotaText"></span>
   </div>
-  <div class="callout warn">
+  <div class="callout warn" id="calloutYoy">
     <span class="dot"></span>
-    <span>전년도(2026학년도) 대비 비교 가능한 16개 조합 중 여전히 <b>15곳(94%)의 경쟁률이 하락</b> 중입니다. 항공서비스학과(교과)는 6.50:1 → 2.85:1로 낙폭이 가장 큽니다.</span>
+    <span id="calloutYoyText"></span>
   </div>
 
   <div class="controls">
     <div class="chips" id="chips">
-      <button class="chip active" data-filter="all">전체 23</button>
+      <button class="chip active" data-filter="all" id="chipAll">전체 16</button>
       <button class="chip" data-filter="critical">미달만</button>
     </div>
     <div class="search">
@@ -377,37 +384,32 @@
   </div>
 
   <footer>
-    <span>출처: 유웨이어플라이 원서접수 관리자 &gt; 경쟁률 바로가기 (배재대학교 관리자 화면 실시간 조회, 파일 다운로드 없이 페이지 데이터를 직접 읽어옴). 전년도(2026학년도) 경쟁률은 "2026학년도 경쟁률.xlsx" 최종 현황 기준이며, 학부·학과 개편으로 전형이 개설되지 않았던 조합은 "–"로 표시했습니다. 정원외 전형과 실기/실적 체육특기자 전형은 범위에서 제외했습니다.</span>
-    <span><b>23</b>건 · 정원내만 · 5분 주기 자동 갱신 · 접수 마감(2026.09.11 21:00) 이후 갱신이 중단됩니다.</span>
+    <span>출처: 유웨이어플라이 원서접수 관리자 &gt; 경쟁률 바로가기 (배재대학교 관리자 화면 실시간 조회, 파일 다운로드 없이 페이지 데이터를 직접 읽어옴 → 구글 시트 경유). 전년도(2026학년도) 경쟁률은 "2026학년도 경쟁률.xlsx" 최종 현황 기준이며, 학부·학과 개편으로 전형이 개설되지 않았던 조합은 "–"로 표시했습니다. 정원외 전형과 실기/실적 체육특기자 전형은 범위에서 제외했습니다.</span>
+    <span><b id="footerCount">16</b>건 · 정원내만 · 이 페이지는 구글 시트에서 매 로드 시 최신 데이터를 직접 불러옵니다 · 접수 마감(2026.09.11 21:00) 이후 갱신이 중단됩니다.</span>
   </footer>
 
 </div>
 
 <script>
-  const RAW = [
-    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(인공지능)", tag:"신설", inwon:25, apply:25, ratio:1, prev:null},
-    {type:"학생부교과 · 교과", unit:"피지컬AI공학부(AI융합전자)", tag:"신설", inwon:20, apply:22, ratio:1.1, prev:null},
-    {type:"학생부교과 · 일반고교과", unit:"피지컬AI공학부(AI융합전자)", tag:"신설", inwon:10, apply:12, ratio:1.2, prev:null},
-    {type:"학생부교과 · 일반고교과", unit:"AI소프트웨어공학부(인공지능)", tag:"신설", inwon:15, apply:21, ratio:1.4, prev:null},
-    {type:"학생부교과 · 지역인재Ⅰ", unit:"AI소프트웨어공학부(컴퓨터공학)", inwon:5, apply:8, ratio:1.6, prev:3.6},
-    {type:"학생부교과 · 지역인재Ⅰ", unit:"자율전공학부", inwon:7, apply:13, ratio:1.86, prev:null},
-    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(소프트웨어학)", inwon:30, apply:57, ratio:1.9, prev:2.23},
-    {type:"학생부교과 · 일반고교과", unit:"AI소프트웨어공학부(컴퓨터공학)", inwon:32, apply:65, ratio:2.03, prev:2.51},
-    {type:"학생부교과 · 지역인재Ⅰ", unit:"AI소프트웨어공학부(게임공학)", inwon:4, apply:9, ratio:2.25, prev:3.4},
-    {type:"학생부교과 · 일반고교과", unit:"AI소프트웨어공학부(소프트웨어학)", inwon:15, apply:34, ratio:2.27, prev:2.65},
-    {type:"학생부교과 · 지역인재Ⅰ", unit:"의류패션학과", inwon:5, apply:12, ratio:2.4, prev:6},
-    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(컴퓨터공학)", inwon:35, apply:86, ratio:2.46, prev:3.28},
-    {type:"학생부교과 · 교과", unit:"생명공학과", inwon:35, apply:91, ratio:2.6, prev:3.15},
+  const SHEET_ID = "19Z7n0dgHT9He-Q9aD_bIxiwT2FYYPUcdkusywNiba68";
+
+  let RAW = [
+    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(인공지능)", tag:"신설", inwon:25, apply:31, ratio:1.24, prev:null},
+    {type:"학생부교과 · 교과", unit:"피지컬AI공학부(AI융합전자)", tag:"신설", inwon:20, apply:25, ratio:1.25, prev:null},
+    {type:"학생부교과 · 일반고교과", unit:"피지컬AI공학부(AI융합전자)", tag:"신설", inwon:10, apply:16, ratio:1.6, prev:null},
+    {type:"학생부교과 · 일반고교과", unit:"AI소프트웨어공학부(인공지능)", tag:"신설", inwon:15, apply:24, ratio:1.6, prev:null},
+    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(소프트웨어학)", inwon:30, apply:63, ratio:2.1, prev:2.23},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"자율전공학부", inwon:7, apply:15, ratio:2.14, prev:null},
+    {type:"학생부교과 · 일반고교과", unit:"AI소프트웨어공학부(컴퓨터공학)", inwon:32, apply:66, ratio:2.06, prev:2.51},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"AI소프트웨어공학부(컴퓨터공학)", inwon:5, apply:11, ratio:2.2, prev:3.6},
+    {type:"학생부교과 · 일반고교과", unit:"AI소프트웨어공학부(소프트웨어학)", inwon:15, apply:37, ratio:2.47, prev:2.65},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"AI소프트웨어공학부(게임공학)", inwon:4, apply:10, ratio:2.5, prev:3.4},
+    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(컴퓨터공학)", inwon:35, apply:88, ratio:2.51, prev:3.28},
+    {type:"학생부교과 · 지역인재Ⅰ", unit:"의류패션학과", inwon:5, apply:13, ratio:2.6, prev:6},
     {type:"학생부교과 · 교과", unit:"건축학과 [5년제]", inwon:33, apply:86, ratio:2.61, prev:5.64},
-    {type:"학생부교과 · 교과", unit:"피지컬AI공학부(드론로봇공학)", inwon:25, apply:66, ratio:2.64, prev:3.59},
-    {type:"학생부교과 · 교과", unit:"스마트배터리학과", inwon:32, apply:89, ratio:2.78, prev:2.24},
-    {type:"학생부교과 · 지역인재Ⅰ", unit:"실내건축학과", inwon:5, apply:14, ratio:2.8, prev:6.2},
-    {type:"학생부교과 · 지역인재Ⅰ", unit:"운동재활복지학과", inwon:5, apply:14, ratio:2.8, prev:null},
-    {type:"실기/실적 · 예술인재", unit:"디자인학부(커뮤니케이션디자인)", inwon:25, apply:70, ratio:2.8, prev:5.4},
-    {type:"학생부교과 · 일반고교과", unit:"자율전공학부", inwon:15, apply:43, ratio:2.87, prev:null},
-    {type:"학생부교과 · 교과", unit:"항공서비스학과", inwon:20, apply:57, ratio:2.85, prev:6.5},
-    {type:"학생부교과 · 일반고교과", unit:"스마트배터리학과", inwon:10, apply:29, ratio:2.9, prev:null},
-    {type:"학생부교과 · 교과", unit:"AI소프트웨어공학부(게임공학)", inwon:30, apply:88, ratio:2.93, prev:4},
+    {type:"학생부교과 · 교과", unit:"생명공학과", inwon:35, apply:92, ratio:2.63, prev:3.15},
+    {type:"학생부교과 · 교과", unit:"피지컬AI공학부(드론로봇공학)", inwon:25, apply:71, ratio:2.84, prev:3.59},
+    {type:"학생부교과 · 교과", unit:"스마트배터리학과", inwon:32, apply:93, ratio:2.91, prev:2.24},
   ];
 
   let sortKey = "ratio", sortDir = 1, activeFilter = "all", searchTerm = "";
@@ -429,7 +431,6 @@
       return true;
     });
     if(sortKey === "ratio"){
-      // group same department together, groups ordered by their lowest ratio, then by ratio within the group
       const minByUnit = {};
       for(const r of rows){ minByUnit[r.unit] = Math.min(minByUnit[r.unit] ?? Infinity, r.ratio); }
       rows.sort((a,b) => {
@@ -488,6 +489,45 @@
     document.getElementById("tileMinUnit").textContent = min.unit;
   }
 
+  function shortType(t){ return t.split(" · ")[1] || t; }
+
+  function renderCallouts(){
+    const belowOne = RAW.filter(r => r.ratio < 1);
+    const q = document.getElementById("calloutQuota");
+    const qText = document.getElementById("calloutQuotaText");
+    if(belowOne.length > 0){
+      q.className = "callout";
+      const list = belowOne.map(r => `${r.unit}·${shortType(r.type)}(${r.ratio.toFixed(2)}:1)`).join(", ");
+      qText.innerHTML = `<b>정원 미달(1:1 미만) 모집단위 ${belowOne.length}건</b> — ${list}`;
+    } else {
+      q.className = "callout good";
+      const newOnes = RAW.filter(r => r.tag === "신설");
+      if(newOnes.length > 0){
+        const minNew = Math.min(...newOnes.map(r => r.ratio));
+        const maxNew = Math.max(...newOnes.map(r => r.ratio));
+        const lowest = newOnes.filter(r => r.ratio === minNew).map(r => `${r.unit}·${shortType(r.type)}`).join(", ");
+        qText.innerHTML = `<b>정원 미달(1:1 미만) 학과는 없습니다</b> — 신설학과 ${newOnes.length}개 조합 모두 ${minNew.toFixed(2)}~${maxNew.toFixed(2)}:1 수준입니다. ${lowest}가 ${minNew.toFixed(2)}:1로 가장 낮습니다.`;
+      } else {
+        qText.innerHTML = `<b>정원 미달(1:1 미만) 학과는 없습니다.</b>`;
+      }
+    }
+
+    const comparable = RAW.filter(r => r.prev != null);
+    const y = document.getElementById("calloutYoy");
+    const yText = document.getElementById("calloutYoyText");
+    if(comparable.length > 0){
+      const declined = comparable.filter(r => r.ratio < r.prev);
+      const pct = Math.round(declined.length / comparable.length * 100);
+      const biggest = comparable.reduce((a,b) => (a.prev - a.ratio) > (b.prev - b.ratio) ? a : b);
+      const isDeclineMajority = declined.length * 2 >= comparable.length;
+      y.className = isDeclineMajority ? "callout warn" : "callout good";
+      yText.innerHTML = `전년도(2026학년도) 대비 비교 가능한 ${comparable.length}개 조합 중 <b>${declined.length}곳(${pct}%)의 경쟁률이 하락</b> 중입니다. ${biggest.unit}(${shortType(biggest.type)})는 ${biggest.prev.toFixed(2)}:1 → ${biggest.ratio.toFixed(2)}:1로 낙폭이 가장 큽니다.`;
+      y.style.display = "";
+    } else {
+      y.style.display = "none";
+    }
+  }
+
   document.getElementById("chips").addEventListener("click", (e) => {
     const btn = e.target.closest(".chip");
     if(!btn) return;
@@ -515,6 +555,62 @@
     });
   });
 
+  let jsonpCounter = 0;
+  function loadSheetTable(sheetName){
+    return new Promise((resolve, reject) => {
+      const cbName = "gvizCb_" + (jsonpCounter++) + "_" + Date.now();
+      window[cbName] = (json) => {
+        resolve(json);
+        delete window[cbName];
+        script.remove();
+      };
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json;responseHandler:${cbName}&sheet=${encodeURIComponent(sheetName)}&_=${Date.now()}`;
+      const script = document.createElement("script");
+      script.src = url;
+      script.onerror = () => { delete window[cbName]; script.remove(); reject(new Error("sheet load failed: " + sheetName)); };
+      document.head.appendChild(script);
+    });
+  }
+
+  async function fetchLive(){
+    try {
+      const [dataJson, metaJson] = await Promise.all([loadSheetTable("Data"), loadSheetTable("Meta")]);
+      const get = (c, i) => (c[i] ? c[i].v : null);
+      const rows = dataJson.table.rows.map(row => {
+        const c = row.c;
+        return {
+          type: get(c, 0), unit: get(c, 1), tag: get(c, 2) || undefined,
+          inwon: get(c, 3), apply: get(c, 4), ratio: get(c, 5), prev: get(c, 6)
+        };
+      });
+      const metaC = metaJson.table.rows[0].c;
+      RAW = rows;
+      const timestamp = get(metaC, 0);
+      const overallRatio = get(metaC, 1);
+
+      document.getElementById("metaTimestamp").textContent = timestamp;
+      document.getElementById("metaRatio").textContent = overallRatio.toFixed(2) + " : 1";
+      document.getElementById("metaLiveNote").textContent = "실시간 연동됨 (매 로드 시 갱신)";
+      document.getElementById("chipAll").textContent = "전체 " + RAW.length;
+      document.getElementById("footerCount").textContent = RAW.length;
+
+      renderStats();
+      renderCallouts();
+      render();
+    } catch(e){
+      document.getElementById("metaLiveNote").textContent = "실시간 연동 실패 · 마지막 저장본 표시 중";
+      console.warn("live fetch failed, keeping last known data", e);
+    }
+  }
+
+  document.getElementById("chipAll").textContent = "전체 " + RAW.length;
+  document.getElementById("footerCount").textContent = RAW.length;
   renderStats();
+  renderCallouts();
   render();
+
+  fetchLive();
+  setInterval(fetchLive, 60000);
 </script>
+</body>
+</html>
